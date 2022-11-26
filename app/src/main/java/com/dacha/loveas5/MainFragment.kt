@@ -6,6 +6,8 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import com.dacha.loveas5.Retrofit.App
 import com.dacha.loveas5.Retrofit.LoveModel
@@ -16,6 +18,8 @@ import retrofit2.Response
 
 
 class MainFragment : Fragment() {
+
+    val viewModel: LoveViewModel by viewModels()
 
     private lateinit var binding:FragmentMainBinding
 
@@ -36,22 +40,13 @@ class MainFragment : Fragment() {
     fun initClick(){
         with(binding){
             btn.setOnClickListener{
-                App.api.calculateLove(firstEd.text.toString() , secondEd.text.toString()).enqueue(object:
-                    Callback<LoveModel> {
-                    override fun onResponse(call: Call<LoveModel>, response: Response<LoveModel>) {
-                        if (response.isSuccessful){
-                            Log.e("ololo", "onResponse: ${response.body()}", )
-                            val bundle = Bundle()
-                            bundle.putSerializable("loveModel",response.body())
-                            findNavController().navigate(R.id.secondFragment,bundle)
-                        }
-
-                    }
-                    override fun onFailure(call: Call<LoveModel>, t: Throwable) {
-                        Log.e("ololo" ,"Failure: ${t.message}")
-                    }
-
-                })
+               viewModel.liveModel(firstEd.text.toString() , secondEd.text.toString()).observe(
+                   viewLifecycleOwner , Observer {
+                       val bundle = Bundle()
+                       bundle.putSerializable("loveModel",it!!)
+                       findNavController().navigate(R.id.secondFragment,bundle)
+                   }
+               )
             }
         }
     }
