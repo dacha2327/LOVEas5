@@ -1,29 +1,26 @@
 package com.dacha.loveas5
 
-import android.content.Intent
-import android.net.DnsResolver
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
-import com.dacha.loveas5.Retrofit.App
-import com.dacha.loveas5.Retrofit.LoveInterface
-import com.dacha.loveas5.Retrofit.LoveModel
+import androidx.appcompat.app.AppCompatActivity
+import androidx.navigation.findNavController
 import com.dacha.loveas5.databinding.ActivityMainBinding
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
+import com.dacha.taskmanager1.data.local.PrefOnBoarding
+import dagger.hilt.android.AndroidEntryPoint
 
-
-
-
-
+@AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
     private lateinit var binding : ActivityMainBinding
-
+    private lateinit var prefOnBoard : PrefOnBoarding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        prefOnBoard = PrefOnBoarding(this)
+
+        val navController = findNavController(R.id.nav_host_fragment_activity_main)
+        if (!prefOnBoard.isonBoardingShow()){
+            navController.navigate(R.id.onBoardingFragment)
+        }
     }
 }

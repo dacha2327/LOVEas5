@@ -1,16 +1,10 @@
 package com.dacha.loveas5.Retrofit
 
 import android.app.Application
+import dagger.hilt.android.HiltAndroidApp
 import retrofit2.Retrofit
 
+@HiltAndroidApp
 class App : Application() {
 
-    companion object {
-        lateinit var api: LoveInterface
-    }
-
-    override fun onCreate() {
-        super.onCreate()
-        api = Retrofit().api
-    }
 }

@@ -7,8 +7,9 @@ import android.view.View
 import android.view.ViewGroup
 import com.dacha.loveas5.Retrofit.LoveModel
 import com.dacha.loveas5.databinding.FragmentSecondBinding
+import dagger.hilt.android.AndroidEntryPoint
 
-
+@AndroidEntryPoint
 class SecondFragment : Fragment() {
 
     private lateinit var binding: FragmentSecondBinding
