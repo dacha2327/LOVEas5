@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
+import com.dacha.loveas5.Retrofit.App
 import com.dacha.loveas5.mvvm.LoveViewModel
 import com.dacha.loveas5.databinding.FragmentMainBinding
 import dagger.hilt.android.AndroidEntryPoint
@@ -39,9 +40,10 @@ class MainFragment : Fragment() {
             btn.setOnClickListener{
                viewModel.liveModel(firstEd.text.toString() , secondEd.text.toString()).observe(
                    viewLifecycleOwner , Observer {
+                       App.taskDatabase.loveDao().insert(it)
                        val bundle = Bundle()
                        bundle.putSerializable("loveModel",it!!)
-                       findNavController().navigate(R.id.secondFragment,bundle)
+                       findNavController().navigate(R.id.historyFragment , bundle)
                    }
                )
             }
